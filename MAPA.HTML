@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Socioeconômico - Tijuquinha</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; }
+        header { background: #2c3e50; color: white; padding: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        #map { flex-grow: 1; width: 100%; }
+        .info-panel {
+            position: absolute; top: 100px; right: 20px; z-index: 1000;
+            background: rgba(255, 255, 255, 0.95); padding: 15px; border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2); width: 280px; max-height: 80vh; overflow-y: auto;
+        }
+        h3 { color: #27ae60; margin-top: 0; border-bottom: 2px solid #27ae60; padding-bottom: 5px; }
+        .stat-item { margin-bottom: 10px; font-size: 14px; }
+        .stat-label { font-weight: bold; color: #34495e; }
+        .bar-container { background: #eee; border-radius: 5px; height: 10px; margin-top: 4px; }
+        .bar-fill { height: 100%; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Perfil Territorial: Bairro Tijuquinha</h1>
+</header>
+
+<div id="map"></div>
+
+<div class="info-panel">
+    <h3>Dados Gerais</h3>
+    <div class="stat-item"><span class="stat-label">População:</span> 4.313 hab.</div>
+    <div class="stat-item"><span class="stat-label">Área:</span> 0,80 km²</div>
+    <div class="stat-item"><span class="stat-label">Densidade:</span> 5.384,12 hab/km²</div>
+
+    <h3>Saneamento</h3>
+    <div class="stat-item">Esgoto: 23,52%
+        <div class="bar-container"><div class="bar-fill" style="width: 23%; background: #e67e22;"></div></div>
+    </div>
+    <div class="stat-item">Água Encanada: 99,5%
+        <div class="bar-container"><div class="bar-fill" style="width: 99%; background: #3498db;"></div></div>
+    </div>
+    <div class="stat-item">Coleta de Lixo: 92,83%
+        <div class="bar-container"><div class="bar-fill" style="width: 92%; background: #95a5a6;"></div></div>
+    </div>
+
+    <h3>Educação e Saúde</h3>
+    <div class="stat-item"><span class="stat-label">Alfabetização:</span> 90%</div>
+    <div class="stat-item"><span class="stat-label">Escolas:</span> 2 unidades</div>
+    <div class="stat-item"><span class="stat-label">Saúde:</span> 1 estabelecimento</div>
+
+    <h3>Perfil Étnico</h3>
+    <div class="stat-item">Pardos: 2.516</div>
+    <div class="stat-item">Brancos: 982</div>
+    <div class="stat-item">Pretos: 813</div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    // Coordenadas centrais aproximadas do Tijuquinha
+    var map = L.map('map').setView([-10.9380, -37.1120], 16);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    // Polígono aproximado do bairro Tijuquinha (limites ilustrativos baseados na área de 0.8km²)
+    var tijuquinhaArea = L.polygon([
+        [-10.9345, -37.1160],
+        [-10.9340, -37.1080],
+        [-10.9420, -37.1085],
+        [-10.9430, -37.1150]
+    ], {
+        color: '#27ae60',
+        fillColor: '#2ecc71',
+        fillOpacity: 0.4
+    }).addTo(map);
+
+    tijuquinhaArea.bindPopup("<b>Bairro Tijuquinha</b><br>Área: 0,80 km²<br>População: 4.313").openPopup();
+
+    // Marcador da Unidade de Saúde (Exemplo local)
+    L.marker([-10.9385, -37.1125]).addTo(map)
+        .bindPopup("<b>Estabelecimento de Saúde</b><br>1 unidade disponível no bairro.");
+
+</script>
+</body>
+</html>
